@@ -514,6 +514,7 @@
             cursor: pointer;
             font-weight: 500;
             transition: all 0.2s ease;
+            margin: 4px;
         }
         .completion-message button:last-of-type {
             background: var(--accent-green);
@@ -540,12 +541,16 @@
             opacity: 1;
         }
 
-        /*TOGGLE
+        .github-badge {
+            position: fixed;
+            bottom: 8px;
+            right: 8px;
+         
+        }
+        .github-badge img {
+        box-shadow: 0 0 5px 0px var(--text-secondary);
+        }
 
-        bg toggle: var(--text-secondary)
-        bg circle: var(--bg-tertiary)
-        br sec: var(--accent-blue)
-        */
         .toggle {
   position: relative;
   display: inline-block;
@@ -629,10 +634,7 @@ input:checked + .slider:before {
             <span class="stat-value" id="accuracy">100%</span>
             <span class="stat-label">Accuracy</span>
         </div>
-        <!--div class="stat">
-            <span class="stat-value" id="wpm">0</span>
-            <span class="stat-label">WPM</span>
-        </div-->
+
         <div class="stat">
             <span class="stat-value" id="errors">0</span>
             <span class="stat-label">Errors</span>
@@ -719,41 +721,14 @@ input:checked + .slider:before {
 </div>
     <div class="focus-hint" id="focus-hint">Click anywhere or press any key to start</div>
 
+    <div class="github-badge">
+        <a href="https://github.com/1001bug/keyboard-trainer" target="_blank">
+            <img src="https://img.shields.io/badge/GitHub-Repo-black?logo=github" alt="GitHub Badge">
+        </a>
+    </div>
+    
 
-<!--
-    <div>
-    <span style="background: #d946ef">#d946ef</span>
-    <span style="background: #06b6d4">#06b6d4</span>
-    <span style="background: #84cc16">#84cc16</span>
-    <span style="background: #2563eb">#2563eb</span>
-    <span style="background: #dc2626">#dc2626</span>
-    <span style="background: #d946ef"></span>
-    <span style="background: #d946ef"></span>
-    <span style="background: #d946ef"></span>
-    </div>
-    <br>
-    <div>
-    <span style="background: #2563eb">#2563eb</span>
-    <span style="background: #db2777">#db2777</span>
-    <span style="background: #10b981">#10b981</span>
-    <span style="background: #f97316">#f97316</span>
-    <span style="background: #4f46e5">#4f46e5</span>
-    <span style="background: #d946ef"></span>
-    <span style="background: #d946ef"></span>
-    <span style="background: #d946ef"></span>
-    </div>
-    <br>
-    <div>
-    <span style="background: #ef4444">#ef4444</span>
-    <span style="background: #f59e0b">#f59e0b</span>
-    <span style="background: #14b8a6">#14b8a6</span>
-    <span style="background: #3b82f6">#3b82f6</span>
-    <span style="background: #a855f7">#a855f7</span>
-    <span style="background: #d946ef"></span>
-    <span style="background: #d946ef"></span>
-    <span style="background: #d946ef"></span>
-    </div>
--->
+
     <div class="completion-message" id="completion-message">
         <h2>Exercise Complete!</h2>
         <p>Great job! Ready for the next one?</p>
@@ -766,29 +741,17 @@ input:checked + .slider:before {
 "use strict";
 
         const leftHand = new Set(['q','w','e','r','t','a','s','d','f','g','z','x','c','v','b']);
-        const rightHand = new Set();
-        // Exercise data - you can modify these sequences
-        /*const exercises = [
-            "f j f j f j@f j f j f j@f j f j f j",
-            "f f f f f f f f f f@j j j j j j j j j j@g g g g g g g g g g@h h h h h h h h h h@fg fg fg fg fg fg@jh jh jh jh jh jh@fgjh fgjh fgjh fgjh@ghf jhg ghf jhg ghf@fghj jhgf fghj jhgf@g g h h f f j j",
-            "d d d d d d d d d d@k k k k k k k k k k@df df df df df df@jk jk jk jk jk jk@dfg kjh dfg kjh@gfd hjk gfd hjk@dk dk dk dk dk dk@kdjf kdjf kdjf kdjf@dhg kfg dhg kfg@dd ff gg hh jj kk",
-            "s s s s s s s s s s@l l l l l l l l l l@sd sd sd sd sd sd@kl kl kl kl kl kl@sdf jkl sdf jkl@asdf hjkl asdf hjkl@sl sl sl sl sl sl@sdfg hjkl sdfg hjkl@lsd ksf lsd ksf@ss dd ff gg hh jj kk ll",
-            "a a a a a a a a a a@as as as as as as@asdf hjkl asdf hjkl@aa ss dd ff gg hh jj kk ll@glas hask dash flash@sagas salad alaska@half ask lad gas jag",
-            "fr ju ft jy de ki@r r r t t t y y y u u u@rt yu rt yu rt yu@er ty ui er ty ui@try hit yet rut@tree here there@grey kite like@ture ryit uyer",
-            "fv jm fb jn dc ki@v v v b b b n n n m m m@vb nm vb nm@cv bn m cv bn m@van man ban can@bad mad cad had@back hack jack lack",
-            "qo wp zx qo wp zx@qa az ws sx ed dc@pop wow zip axe@quick brown fox@lazy dog jumps@qwerty asdfgh zxcvb@power point zoom@mix max box fix",
-            "f f f f f f f f@j j j j j j j j@f j f j f j f j@d d d d d d d d@k k k k k k k k@d k d k d k d k@s s s s s s s s@l l l l l l l l@s l s l s l s l@a a a a a a a a@f d s a f d s a@j k l j k l j k l@g g g g g g g g@h h h h h h h h@g h g h g h g h@f g h j f g h j@t t t t t t t t@y y y y y y y y@t y t y t y t y@r r r r r r r r@u u u u u u u u@r u r u r u r u@e e e e e e e e@i i i i i i i i@e i e i e i e i@w w w w w w w w@o o o o o o o o@w o w o w o w o@q q q q q q q q@p p p p p p p p@q p q p q p q p@the quick brown fox jumps over the lazy dog"
-        ];*/
+        //const rightHand = new Set();
+
 
         // State
-        let currentIndex = {e:0,t:0,s:0,toString: function(a = this.e,b = this.t,c=this.s) {return `${a}:${b}:${c}`;}};
-        //toString: function(a,b,c) {return `${this.e}:${this.t}:${this.s}`;}
+        let currentIndex = {e:0,t:-1,s:-1,toString: function(a = this.e,b = this.t,c=this.s) {return `${a}:${b}:${c}`;}};
         let currentSpanIndex = 0;
         let isError = false;
         let totalKeystrokes = 0;
         let errorCount = 0;
         let startTime = null;
-        let completedExercises = new Set();
+        
 
         // DOM Elements
         const exerciseText = document.getElementById('exercise-text');
@@ -804,25 +767,28 @@ input:checked + .slider:before {
         // Character span elements cache
         let charSpans = [];
         let taskStepsRef = [];
-        // Exercise -> Task -> Step
-        // Bsc/Adv  -> LR-RL-> 1,2,3
+
         //Basic vs advanced
         let exercises = [];
-        //let exercise = 0;
 
         //page init
         function onWindowLoad(){
-        exercises.push(task_small);
-        exercises.push(task_big);
-        console.log(exercises);
+            exercises.push(task_small);
+            exercises.push(task_big);
+            //console.log(exercises);
 
-        initExerciseList();
+            initExerciseList();
+            updateExerciseListDisplay();
         }//onWindowLoad
 
         function select_task_type(o){
-            console.log('select_task_type',o, o.value);
             currentIndex.e = o.value;
+            currentIndex.t = -1;
+            currentIndex.s = -1;
+            
             initExerciseList();
+            updateExerciseListDisplay();
+            createTaskStepDisplay();
         }
 
 
@@ -831,13 +797,7 @@ input:checked + .slider:before {
             exerciseList.innerHTML = '';
             taskStepsRef = [];
 
-/*
-            const sorted = Object.keys(exercises[currentIndex.e]).sort((x, y) => {
-            const prefixCompare = y.slice(0, 5).localeCompare(x.slice(0, 5));
-            if (prefixCompare !== 0) return prefixCompare;
-            return x.length - y.length;
-            });
-*/
+
 
                 exercises[currentIndex.e].forEach((task, t_idx) => {
                     const groupHeader = document.createElement('div');
@@ -849,18 +809,13 @@ input:checked + .slider:before {
                     exerciseList.appendChild(groupHeader);
                     taskStepsRef.push(groupHeader);
 
-                    console.log('task ',task,' idx ',t_idx);
-
                     task.steps.forEach((step, s_idx) => {
-                        console.log('step ',step[0],' idx ',s_idx);
+                        //console.log('step ',step[0],' idx ',s_idx);
                         const item = document.createElement('div');
                         item.className = 'exercise-item';
                         item.dataset.t_idx = t_idx;
                         item.dataset.s_idx = s_idx;
                         item.dataset.ets_sign = currentIndex.toString(currentIndex.e,t_idx,s_idx);
-
-                        //if (t_idx === currentIndex.t && s_idx === currentIndex.s) item.classList.add('active');
-                        //if (completedExercises.has(currentIndex.toString())) item.classList.add('completed-exercise');
 
                         item.innerHTML = `<span>${t_idx + 1}.${s_idx + 1}</span>&nbsp;<span>${step[0].substring(0, 14)}</span>`;
                         item.addEventListener('click', () => loadTaskStep(t_idx,s_idx));
@@ -887,17 +842,9 @@ input:checked + .slider:before {
             createTaskStepDisplay();
             updateTaskStepDisplay();
             updateExerciseListDisplay();
-            //initExerciseList(); // replace with updateExerciseListDisplay()
             updateStats();
             highlightCurrentKey();
             
-            // Scroll to active item
-            /*const activeItem = exerciseList.querySelector('.exercise-item.active');
-            if (activeItem) {
-                activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }*/
-
-
         }
 
 
@@ -906,8 +853,11 @@ input:checked + .slider:before {
         function createTaskStepDisplay() {
             // Exercise -> Task -> Step
 
-            //const text = exercises[currentIndex];
+            exerciseText.scrollTop = 0;
             exerciseText.innerHTML = '';
+            
+            if (currentIndex.t < 0 || currentIndex.s < 0 ) return;
+            
             charSpans = [];
 
             const rows = exercises[currentIndex.e][currentIndex.t].steps[currentIndex.s];
@@ -976,15 +926,17 @@ input:checked + .slider:before {
         function updateExerciseListDisplay() {
             taskStepsRef.forEach((elem, index) => {
                 elem.classList.remove('active');
-                //.dataset.t_idx
-                //.dataset.s_idx
+
                 if (elem.dataset.s_idx !== undefined && elem.dataset.t_idx !== undefined && elem.dataset.ets_sign !== undefined) {
                     if(currentIndex.s == elem.dataset.s_idx && currentIndex.t == elem.dataset.t_idx){
                         elem.classList.add('active');
-                    }//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ currentIndex.toString()
-                    if (completedExercises.has(elem.dataset.ets_sign)  ) {
-                        elem.classList.add('completed-exercise');
                     }
+                    
+                    const completed = localStorage.getItem('exercise_' + elem.dataset.ets_sign);
+                    if (completed !== null) {
+                        elem.classList.add('completed-exercise');
+                    };
+
                 }
                 if (elem.dataset.s_idx === undefined && elem.dataset.t_idx !== undefined) {
                     if(currentIndex.t == elem.dataset.t_idx){
@@ -1030,7 +982,7 @@ input:checked + .slider:before {
                         }
 
                     }
-                console.log("currentChar: ",currentChar, "prev:", charSpans[currentSpanIndex - 1].innerText)
+                //console.log("currentChar: ",currentChar, "prev:", charSpans[currentSpanIndex - 1].innerText)
                 }
 
             }
@@ -1049,13 +1001,7 @@ input:checked + .slider:before {
                 : 100;
             accuracyDisplay.textContent = accuracy + '%';
             errorsDisplay.textContent = errorCount;
-            /*
-            if (startTime && currentSpanIndex > 0) {
-                const elapsedMinutes = (Date.now() - startTime) / 60000;
-                const words = currentSpanIndex / 5;
-                const wpm = Math.round(words / elapsedMinutes);
-                wpmDisplay.textContent = wpm;
-            }*/
+
         }
 
         // Handle key press
@@ -1103,9 +1049,10 @@ input:checked + .slider:before {
 
                 
                 if (currentSpanIndex >= charSpans.length) {
-                    // Exercise complete
-                    completedExercises.add(currentIndex.toString());
-                    //initExerciseList(); replace with updateExerciseListDisplay() @@@@@@@@@@@@@@
+                    // Exercise complete. replace wiht 'localStorage'
+                    //completedExercises.add(currentIndex.toString());
+                    localStorage.setItem('exercise_' + currentIndex.toString(), 1);
+                    
                     showCompletionMessage();
                 }
                 
@@ -1122,17 +1069,38 @@ input:checked + .slider:before {
 
         function scrollToChar() {
 
-            const element = document.querySelector('.char.current');
+            //return;
+            const container = exerciseText;
+            const target = document.querySelector('.char.current');
+
+            if (container === null || target === null) return;
+
+            // Calculate the relative position
+            const containerRect = container.getBoundingClientRect();
+            const targetRect = target.getBoundingClientRect();
+
+            // Calculate the scroll distance needed within the container
+            // This example scrolls the top of the target to the top of the container's view
+            const scrollTopDistance = targetRect.top - containerRect.top + container.scrollTop;
+
+            // Set the new scroll position
+            container.scrollTo({
+                top: scrollTopDistance,
+                behavior: 'smooth'
+            });
+            
+            /*const element = document.querySelector('.char.current');
             if (element !== null) {
             element.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
                 });
-            }
+            }*/
         }
 
         function scrollToTaskStep() {
             // Scroll to active item
+            //container 'exerciseList'
             const activeItem = exerciseList.querySelector('.exercise-item.active');
             if (activeItem !== null) {
                 activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -1194,6 +1162,24 @@ input:checked + .slider:before {
 
         // Initialize
 
+
+console.log(`
+%c
+888    888 8888888888 888      888      .d88888b.       888       888  .d88888b.  8888888b.  888      8888888b.  
+888    888 888        888      888     d88P" "Y88b      888   o   888 d88P" "Y88b 888   Y88b 888      888  "Y88b 
+888    888 888        888      888     888     888      888  d8b  888 888     888 888    888 888      888    888 
+8888888888 8888888    888      888     888     888      888 d888b 888 888     888 888   d88P 888      888    888 
+888    888 888        888      888     888     888      888d88888b888 888     888 8888888P"  888      888    888 
+888    888 888        888      888     888     888      88888P Y88888 888     888 888 T88b   888      888    888 
+888    888 888        888      888     Y88b. .d88P      8888P   Y8888 Y88b. .d88P 888  T88b  888      888  .d88P 
+888    888 8888888888 88888888 88888888 "Y88888P"       888P     Y888  "Y88888P"  888   T88b 88888888 8888888P"  
+`, "color: #3b82f6; font-weight: bold;");
+
+console.log(
+  "%c 🚀 DIY Project %c System ready. Welcome to the backstage.",
+  "background: #f59e0b; color: #3b82f6; padding: 5px 10px; border-radius: 4px 0 0 4px; font-weight: bold;",
+  "background: #ef4444; color: white; padding: 5px 10px; border-radius: 0 4px 4px 0;"
+);
 
         const task_big = [{"dir":"LR-RL","name":"L_I R_I","steps":[["th nt th nt th nt","ty ng ty ng ty ng","tu ur tu ur tu ur","ry ut ry ut ry ut","ru yt ru yt ru yt"],["rn yr rn yr rn yr","rm yb rm yb rm yb","gh ug gh ug gh ug","bu uf bu uf bu uf","tn ub tn ub tn ub"],["tm nv tm nv tm nv","rh nr rh nr rh nr","gy nf gy nf gy nf","gu nb gu nb gu nb","gn mb gn mb gn mb"],["gm ht gm ht gm ht","fy hr fy hr fy hr","fu fu fu fu fu fu","by by by by by by","bm bm bm bm bm bm","bj bj bj bj bj bj"]]},{"dir":"LR-RL","name":"L_M, R_M","steps":[["di ic di ic di ic","ci ie ci ie ci ie","ck ke ck ke ck ke","ek id ek id ek id","ei kd ei kd ei kd"]]},{"dir":"LR-RL","name":"L_R, L_P, R_R, R_P","steps":[["al la al la al la","so pa so pa so pa","sp ow sp ow sp ow","ap os ap os ap os","zo ls zo ls zo ls"],["xp ps xp ps xp ps","wo oz wo oz wo oz","wl ox wl ox wl ox","sl oa sl oa sl oa","ao ao ao ao ao ao"]]},{"dir":"LR-RL","name":"L_M, R_I","steps":[["en ne en ne en ne","ch me ch me ch me","em nd em nd em nd","cu he cu he cu he","ey nc ey nc ey nc"],["eu uc eu uc eu uc","eh ye eh ye eh ye","dy yd dy yd dy yd","du yc du yc du yc","dn ue dn ue dn ue"],["dm ud dm ud dm ud","dj je dj je dj je","cy cy cy cy cy cy"]]},{"dir":"LR-RL","name":"L_I, R_M","steps":[["ti it ti it ti it","ri iv ri iv ri iv","vi ir vi ir vi ir","fi ig fi ig fi ig"],["gi if gi if gi if","bi ib bi ib bi ib","rk rk rk rk rk rk"]]},{"dir":"LR-RL","name":"L_I, R_R, R_P","steps":[["ro or ro or ro or","to pr to pr to pr","fo ot fo ot fo ot","bo ov bo ov bo ov","bl pt bl pt bl pt"],["vo pg vo pg vo pg","tp og tp og tp og","tl of tl of tl of","rp ob rp ob rp ob","rl lv rl lv rl lv"],["go lt go lt go lt","gl lg gl lg gl lg","fl lf fl lf fl lf","lb lb lb lb lb lb"]]},{"dir":"LR-RL","name":"R_I, L_R, L_P","steps":[["an ns an ns an ns","su na su na su na","sh ma sh ma sh ma","am us am us am us","qu ha qu ha qu ha"],["ay ua ay ua ay ua","xu yw xu yw xu yw","xh ys xh ys xh ys","wn ya wn ya wn ya","wh uz wh uz wh uz"],["sy ms sy ms sy ms","sn ja sn ja sn ja","sm hs sm hs sm hs","au au au au au au","ah ah ah ah ah ah"]]},{"dir":"LR-RL","name":"L_I, R_M, R_R, R_P","steps":[["ti or ti or ti or","ri it ri it ri it","ro pr ro pr ro pr","to ot to ot to ot","vi iv vi iv vi iv"],["fi ov fi ov fi ov","gi ir gi ir gi ir","fo ig fo ig fo ig","bo if bo if bo if","bl pt bl pt bl pt"],["bi pg bi pg bi pg","vo og vo og vo og","tp of tp of tp of","tl ob tl ob tl ob","rp lv rp lv rp lv"],["rl lt rl lt rl lt","rk lg rk lg rk lg","go lf go lf go lf","gl lb gl lb gl lb","fl ib fl ib fl ib"]]},{"dir":"LR-RL","name":"R_I, L_M, L_R, L_P","steps":[["en ns en ns en ns","an ne an ne an ne","ch me ch me ch me","su nd su nd su nd","sh na sh na sh na"],["em ma em ma em ma","am he am he am he","qu us qu us qu us","cu nc cu nc cu nc","ay ha ay ha ay ha"],["xu uc xu uc xu uc","xh ua xh ua xh ua","wn yw wn yw wn yw","wh ys wh ys wh ys","sy ye sy ye sy ye"],["sn yd sn yd sn yd","sm yc sm yc sm yc","ey ya ey ya ey ya","eu uz eu uz eu uz","eh ue eh ue eh ue"],["dy ud dy ud dy ud","du ms du ms du ms","dn je dn je dn je","dm ja dm ja dm ja","dj hs dj hs dj hs"],["cy cy cy cy cy cy","au au au au au au","ah ah ah ah ah ah"]]},{"dir":"LL-RR","name":"L_I, R_I","steps":[["tr un tr un tr un","rt um rt um rt um","gr yn gr yn gr yn","br ym br ym br ym","tb uy tb uy tb uy"],["rv ny rv ny rv ny","rg nu rg nu rg nu","rf nm rf nm rf nm","rb nj rb nj rb nj","gt nh gt nh gt nh"],["ft my ft my ft my","fr mu fr mu fr mu","bt mn bt mn bt mn","ju ju ju ju ju ju","hy hy hy hy hy hy"],["hu hu hu hu hu hu","hn hn hn hn hn hn","hm hm hm hm hm hm"]]},{"dir":"LL-RR","name":"R_R, L_R, L_P, R_P","steps":[["as ol as ol as ol","wa lo wa lo wa lo","sa po sa po sa po","za pl za pl za pl"],["xa op xa op xa op","ws lp ws lp ws lp","sw sw sw sw sw sw","sq sq sq sq sq sq"],["az az az az az az","ax ax ax ax ax ax","aw aw aw aw aw aw","aq aq aq aq aq aq"]]},{"dir":"LL-RR","name":"L_M, R_I","steps":[["ed un ed un ed un","de um de um de um","ce yn ce yn ce yn","ec ym ec ym ec ym","dc uy dc uy dc uy"],["cd ny cd ny cd ny","nu nu nu nu nu nu","nm nm nm nm nm nm","nj nj nj nj nj nj","nh nh nh nh nh nh"],["my my my my my my","mu mu mu mu mu mu","mn mn mn mn mn mn","ju ju ju ju ju ju","hy hy hy hy hy hy"],["hu hu hu hu hu hu","hn hn hn hn hn hn","hm hm hm hm hm hm"]]},{"dir":"LL-RR","name":"L_I, R_M","steps":[["tr ki tr ki tr ki","rt ik rt ik rt ik","gr gr gr gr gr gr","br br br br br br","tb tb tb tb tb tb"],["rv rv rv rv rv rv","rg rg rg rg rg rg","rf rf rf rf rf rf","rb rb rb rb rb rb","gt gt gt gt gt gt"],["ft ft ft ft ft ft","fr fr fr fr fr fr","bt bt bt bt bt bt"]]},{"dir":"LL-RR","name":"L_I, R_R, R_P","steps":[["tr ol tr ol tr ol","rt lo rt lo rt lo","gr po gr po gr po","br pl br pl br pl","tb op tb op tb op"],["rv lp rv lp rv lp","rg rg rg rg rg rg","rf rf rf rf rf rf","rb rb rb rb rb rb","gt gt gt gt gt gt"],["ft ft ft ft ft ft","fr fr fr fr fr fr","bt bt bt bt bt bt"]]},{"dir":"LL-RR","name":"R_I, L_R, L_P","steps":[["as un as un as un","wa um wa um wa um","sa yn sa yn sa yn","za ym za ym za ym","xa uy xa uy xa uy"],["ws ny ws ny ws ny","sw nu sw nu sw nu","sq nm sq nm sq nm","az nj az nj az nj","ax nh ax nh ax nh"],["aw my aw my aw my","aq mu aq mu aq mu","mn mn mn mn mn mn","ju ju ju ju ju ju","hy hy hy hy hy hy"],["hu hu hu hu hu hu","hn hn hn hn hn hn","hm hm hm hm hm hm"]]},{"dir":"LL-RR","name":"L_I, R_M, R_R, R_P","steps":[["tr io tr io tr io","rt li rt li rt li","gr ol gr ol gr ol","br lo br lo br lo","tb po tb po tb po"],["rv il rv il rv il","rg pl rg pl rg pl","rf pi rf pi rf pi","rb op rb op rb op","gt ki gt ki gt ki"],["ft ip ft ip ft ip","fr ok fr ok fr ok","bt oi bt oi bt oi","lp lp lp lp lp lp","lk lk lk lk lk lk"],["ko ko ko ko ko ko","kl kl kl kl kl kl","ik ik ik ik ik ik"]]},{"dir":"LL-RR","name":"R_I, L_M, L_R, L_P","steps":[["es un es un es un","ed um ed um ed um","se yn se yn se yn","de ym de ym de ym","ea uy ea uy ea uy"],["ce ny ce ny ce ny","ca nu ca nu ca nu","ec nm ec nm ec nm","as nj as nj as nj","ac nh ac nh ac nh"],["ad my ad my ad my","we mu we mu we mu","wa mn wa mn wa mn","sc ju sc ju sc ju","sa hy sa hy sa hy"],["ex hu ex hu ex hu","ds hn ds hn ds hn","da hm da hm da hm","ze ze ze ze ze ze","za za za za za za"],["xe xe xe xe xe xe","xc xc xc xc xc xc","xa xa xa xa xa xa","ws ws ws ws ws ws","sw sw sw sw sw sw"],["sq sq sq sq sq sq","sd sd sd sd sd sd","ew ew ew ew ew ew","eq eq eq eq eq eq","dw dw dw dw dw dw"],["dc dc dc dc dc dc","cs cs cs cs cs cs","cd cd cd cd cd cd","az az az az az az","ax ax ax ax ax ax"],["aw aw aw aw aw aw","aq aq aq aq aq aq","ae ae ae ae ae ae"]]}];
 
